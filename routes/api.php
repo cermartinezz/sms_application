@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Controllers\Stock\StockController;
+use App\Controllers\MessageController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
     $app->group('/api' , function (RouteCollectorProxy $group){
-        $group->get('/sms', [StockController::class, 'show']);
-        $group->post('/sms', [StockController::class, 'index']);
+        $group->get('/messages', [MessageController::class, 'index']);
+        $group->post('/messages', [MessageController::class, 'store']);
     });
 };

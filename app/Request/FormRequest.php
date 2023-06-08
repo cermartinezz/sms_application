@@ -10,6 +10,7 @@ abstract class FormRequest
      * @var Validator
      */
     protected $validator;
+    protected $prepareData = [];
     private $data;
     /**
      * @var array[]
@@ -25,9 +26,15 @@ abstract class FormRequest
         $this->validator = new Validator();
     }
 
+    public function prepareData($data)
+    {
+        return $this;
+    }
+
     public function validate($data)
     {
-        return $this->setData($data)
+        return $this->prepareData($data)
+            ->setData($data)
             ->setRules()
             ->runValidation()
             ->setValid();
@@ -49,7 +56,7 @@ abstract class FormRequest
 
     private function setData($data): FormRequest
     {
-        $this->data = $data;
+        $this->data = array_merge($data,$this->prepareData);
 
         return $this;
     }
@@ -74,6 +81,11 @@ abstract class FormRequest
     public function errors(): array
     {
         return $this->errors;
+    }
+
+    public function validated():array
+    {
+        return $this->data;
     }
 
 
