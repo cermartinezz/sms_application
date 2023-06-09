@@ -17,7 +17,8 @@
         "cakephp/validation": "^4.4",
         "curl/curl": "^2.3",
         "symfony/mailer": "^6.0",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "twilio/sdk": "^7.4"
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",
