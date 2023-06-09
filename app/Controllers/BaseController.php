@@ -10,55 +10,65 @@ abstract class BaseController
     /**
      * @param Response $response
      * @param $data
+     * @param array $headers
      * @return Response
      */
-    public function responseSuccess(Response $response, $data): Response
+    public function responseSuccess($response, $data, $headers = []): Response
     {
-        return $this->json($response, $data, StatusCodeInterface::STATUS_OK);
+        return $this->json($response, $data, StatusCodeInterface::STATUS_OK, $headers);
     }
 
     /**
      * @param Response $response
      * @param $data
+     * @param array $headers
      * @return Response
      */
-    public function responseCreated(Response $response, $data): Response
+    public function responseCreated(Response $response, $data, $headers = []): Response
     {
-        return $this->json($response, $data, StatusCodeInterface::STATUS_CREATED);
+        return $this->json($response, $data, StatusCodeInterface::STATUS_CREATED, $headers);
     }
 
     /**
      * @param Response $response
      * @param $data
+     * @param array $headers
      * @return Response
      */
-    public function responseBadRequest(Response $response, $data): Response
+    public function responseBadRequest(Response $response, $data, $headers = []): Response
     {
-        return $this->json($response, $data, StatusCodeInterface::STATUS_BAD_REQUEST);
+        return $this->json($response, $data, StatusCodeInterface::STATUS_BAD_REQUEST, $headers);
     }
 
     /**
      * @param Response $response
      * @param $data
+     * @param array $headers
      * @return Response
      */
-    public function responseErrorValidation(Response $response, $data): Response
+    public function responseErrorValidation(Response $response, $data, $headers = []): Response
     {
-        return $this->json($response, $data, StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY);
+        return $this->json($response, $data, StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY, $headers);
     }
 
     /**
      * @param Response $response
-     * @param $data
-     * @param $statusCode
+     * @param null $data
+     * @param int $statusCode
+     * @param array $headers
      * @return Response
      */
-    public function json(Response $response, $data, $statusCode = StatusCodeInterface::STATUS_OK): Response
+    public function json(Response $response, $data = null, int $statusCode = StatusCodeInterface::STATUS_OK, $headers = []): Response
     {
         $data = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-        $response = $response->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
+        $headers = array_merge($headers, ['Content-Type' => 'application/json']);
+
+        foreach ($headers as $key => $value){
+            $response = $response->withHeader($key,$value);
+        }
+
+        $response->withStatus($statusCode);
 
         $response->getBody()->write($data);
 
