@@ -24,8 +24,6 @@ date_default_timezone_set(config('settings.location.region'));
 
 $app = AppFactory::create($container);
 
-$database = require_once __DIR__ . '/../config/database.php';
-$database($app);
 
 // Register routes
 $routes = require_once __DIR__ . '/../routes/api.php';
