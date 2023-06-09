@@ -21,8 +21,10 @@ final class MakeSendMessagesTable extends AbstractMigration
         $table=$this->table('send_messages');
         $table
             ->addColumn('message_id', 'integer')
-            ->addColumn('date_sent','datetime')
+            ->addColumn('date_sent','datetime', ['null' => true])
             ->addColumn('confirmation','string', ['limit'=>128])
+            ->addColumn('success','tinyinteger')
+            ->addColumn('error_message','text', ['null' => true])
             ->addForeignKey('message_id', 'messages', 'id')
             ->addTimestamps()
             ->create();
