@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController as Controller;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use App\Controllers\BaseController as Controller;
 use Ramsey\Uuid\Uuid;
 use Slim\Psr7\Cookies;
 
@@ -19,8 +19,7 @@ class GuestController extends Controller
             $uuid = Uuid::uuid4();
 
             $data = [
-                'id' => $uuid->toString(),
-                'messages' => []
+                'id' => $uuid->toString()
             ];
 
             $cookies = (new Cookies())

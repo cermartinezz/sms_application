@@ -11,7 +11,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class MessageController extends Controller
 {
+    public function index(Request $request, Response $response)
+    {
+        $cookies = $request->getCookieParams();
+        $session = isset($cookies['session']) ? json_decode($cookies['session']) : null;
 
+        $messages = Message::query()->with('response')->where('from', $session->id)->get();
+
+        return $this->responseSuccess($response, [
+            'result' => [
+                'message' => 'messages',
+                'data' => $messages->toArray()
+            ]
+        ]);
+    }
     /**
      * @param \Slim\Psr7\Request $request
      * @param Response $response

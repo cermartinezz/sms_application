@@ -15,5 +15,17 @@ class SendMessage extends Model
         'error_message'
     ];
 
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'success' => $this->success,
+            'confirmation' => $this->confirmation,
+            'message_id' => $this->message_id,
+            'date_sent' => $this->date_sent,
+            'error_message' => $this->error_message,
+        ];
+    }
+
 
 }
